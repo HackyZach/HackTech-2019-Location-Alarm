@@ -15,12 +15,21 @@
     "expo": "^32.0.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-dialog": "^5.5.0",
     "react-native-maps": "^0.23.0",
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "acorn": "^6.1.1",
+    "babel-eslint": "^10.0.1",
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "^32.0.0"
+    "eslint": "^5.15.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest-expo": "^32.0.0",
+    "webpack": "^4.29.6"
   },
   "private": true
 }
