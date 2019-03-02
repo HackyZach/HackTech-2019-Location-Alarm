@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet, Text, View, TouchableOpacity,
-} from 'react-native';
+import React from 'react';
 import { MapView } from 'expo';
-import Dialog from 'react-native-dialog';
 
 export default class App extends React.Component {
   static navigationOptions = {
@@ -33,35 +29,33 @@ export default class App extends React.Component {
 
   render() {
     return (
-        <MapView
-          style={{ flex: 1 }}
-          provider="google"
-          showsTraffic
-          showsMyLocationButton
-          showsUserLocation
-          mapType="standard"
-          onLongPress={this.handlePress}
+      <MapView
+        style={{ flex: 1 }}
+        provider="google"
+        showsTraffic
+        showsMyLocationButton
+        showsUserLocation
+        mapType="standard"
+        onLongPress={this.handlePress}
         // onMarkerPress={}
-          initialRegion={{
-            latitude: 40.76727216,
-            longitude: -73.99392888,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
+        initialRegion={{
+          latitude: 40.76727216,
+          longitude: -73.99392888,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
 
-          {this.state.markers.map(marker => (
-            <MapView.Marker
-              {...marker}
-              title="Marker #XX"
-              description="Tap to Change Info"
-              onCalloutPress={this.handleDialogueBox}
-            >
-            </MapView.Marker>
-          ))}
-        </MapView>
+        {this.state.markers.map(marker => (
+          <MapView.Marker
+            {...marker}
+            title="Marker #XX"
+            description="Tap to Change Info"
+            onCalloutPress={this.handleDialogueBox}
+          >
+          </MapView.Marker>
+        ))}
+      </MapView>
     );
-
-
   }
 }

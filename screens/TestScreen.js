@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import Dialog from "react-native-dialog";
+import React, { Component } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import Dialog from 'react-native-dialog';
 
 export default class DialogTester extends Component {
   state = {
-    dialogVisible: false
+    dialogVisible: false,
   };
 
   showDialog = () => {
