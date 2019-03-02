@@ -1,19 +1,34 @@
 import React from 'react';
 import { MapView } from 'expo';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+} from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 export default class App extends React.Component {
   static navigationOptions = {
-    title: 'Map Screen Test',
+    title: 'Dev-MapTest',
+  };
+
+  state = {
+    searchNew: '',
+    markers: [],
   };
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      markers: [],
-    };
     this.handlePress = this.handlePress.bind(this);
   }
+
+  updateSearch = (search) => {
+    this.setState({ searchNew: search });
+  };
 
   handlePress(e) {
     this.setState({
@@ -27,8 +42,22 @@ export default class App extends React.Component {
     });
   }
 
+  handleLocation(e) {
+      //User coordinates
+    //console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude);
+  }
+
+  handleDialogueBox(e) {
+      //Not working
+      console.log(e);
+  }
+
   render() {
+    const { search } = this.state.searchNew;
+    console.log(search);
+
     return (
+
       <MapView
         style={{ flex: 1 }}
         provider="google"
@@ -37,14 +66,20 @@ export default class App extends React.Component {
         showsUserLocation
         mapType="standard"
         onLongPress={this.handlePress}
+        onUserLocationChange={this.handleLocation}
         // onMarkerPress={}
         initialRegion={{
-          latitude: 40.76727216,
-          longitude: -73.99392888,
+          latitude: 34.1401239,
+          longitude: -118.1250156,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
       >
+        <MapView.Callout>
+          <View>
+            <Text style={styles.calloutView}> Yay! Im a callout! </Text>
+          </View>
+        </MapView.Callout>
 
         {this.state.markers.map(marker => (
           <MapView.Marker
@@ -59,3 +94,15 @@ export default class App extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  calloutView: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 10,
+    width: '40%',
+    marginLeft: '30%',
+    marginRight: '30%',
+    marginTop: 20,
+  },
+});
