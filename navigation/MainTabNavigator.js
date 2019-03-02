@@ -6,7 +6,25 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import MapScreen from '../screens/MapScreen'
+import MapScreen from '../screens/MapScreen';
+import TestScreen from '../screens/DialogueTest';
+
+const TestStack = createStackNavigator({
+    Test: TestScreen,
+})
+TestStack.navigationOptions = {
+    tabBarLabel: 'Dialogue Test',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === 'ios'
+            ? `ios-information-circle${focused ? '' : '-outline'}`
+            : 'md-information-circle'
+        }
+      />
+    ),
+};
 
 const MapStack = createStackNavigator({
     Map: MapScreen,
@@ -77,4 +95,5 @@ export default createBottomTabNavigator({
   LinksStack,
   SettingsStack,
   MapStack,
+  TestStack,
 });

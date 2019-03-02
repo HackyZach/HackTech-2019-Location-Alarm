@@ -1,9 +1,7 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { MapView } from "expo";
+import React from 'react';
+import { MapView } from 'expo';
 
 export default class App extends React.Component {
-
   static navigationOptions = {
     title: 'Map Screen Test',
   };
@@ -12,8 +10,8 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      markers: []
-    }
+      markers: [],
+    };
     this.handlePress = this.handlePress.bind(this);
   }
 
@@ -22,38 +20,42 @@ export default class App extends React.Component {
       markers: [
         ...this.state.markers,
         {
+          key: e.nativeEvent.coordinate.latitude,
           coordinate: e.nativeEvent.coordinate,
-        }
-      ]
-    })
+        },
+      ],
+    });
   }
-
 
   render() {
     return (
-
       <MapView
-    style={{ flex: 1 }}
-    provider="google"
-    showsTraffic={true}
-    showsMyLocationButton={true}
-    showsUserLocation={true}
-    mapType="standard"
-    onPress={this.handlePress}
-    initialRegion={{
-      latitude: 40.76727216,
-      longitude: -73.99392888,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }}
->
-{this.state.markers.map((marker) => {
-        return (
-          <MapView.Marker {...marker} >
+        style={{ flex: 1 }}
+        provider="google"
+        showsTraffic
+        showsMyLocationButton
+        showsUserLocation
+        mapType="standard"
+        onLongPress={this.handlePress}
+        // onMarkerPress={}
+        initialRegion={{
+          latitude: 40.76727216,
+          longitude: -73.99392888,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+
+        {this.state.markers.map(marker => (
+          <MapView.Marker
+            {...marker}
+            title="Marker #XX"
+            description="Tap to Change Info"
+            onCalloutPress={this.handleDialogueBox}
+          >
           </MapView.Marker>
-        )
-      })}
-</MapView>
+        ))}
+      </MapView>
     );
   }
 }

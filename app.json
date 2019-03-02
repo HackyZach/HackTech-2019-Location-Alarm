@@ -13,8 +13,8 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/images/map_splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#000000"
     },
     "updates": {
