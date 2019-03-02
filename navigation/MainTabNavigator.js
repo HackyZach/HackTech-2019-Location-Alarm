@@ -7,13 +7,13 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MapScreen from '../screens/MapScreen';
-import TestScreen from '../screens/TestScreen';
+import TestScreen from '../screens/DialogueTest';
 
 const TestStack = createStackNavigator({
     Test: TestScreen,
 })
 TestStack.navigationOptions = {
-    tabBarLabel: 'Test Page',
+    tabBarLabel: 'Dialogue Test',
     tabBarIcon: ({ focused }) => (
       <TabBarIcon
         focused={focused}
