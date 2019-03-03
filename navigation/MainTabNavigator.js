@@ -7,7 +7,6 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MapScreen from '../screens/MapScreen';
-import TestScreen from '../screens/DialogueTest';
 import TestFile from '../screens/TestingZone';
 
 const TestFilez = createStackNavigator({
@@ -15,22 +14,6 @@ const TestFilez = createStackNavigator({
 });
 TestFilez.navigationOptions = {
   tabBarLabel: 'TEST ZONE',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-          Platform.OS === 'ios'
-            ? `ios-information-circle${focused ? '' : '-outline'}`
-            : 'md-information-circle'
-        }
-    />
-  ),
-};
-const TestStack = createStackNavigator({
-  Test: TestScreen,
-});
-TestStack.navigationOptions = {
-  tabBarLabel: 'Dialogue Test',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -112,6 +95,5 @@ export default createBottomTabNavigator({
   LinksStack,
   SettingsStack,
   MapStack,
-  TestStack,
   TestFilez,
 });
