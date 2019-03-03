@@ -7,24 +7,6 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MapScreen from '../screens/MapScreen';
-import TestFile from '../screens/TestingZone';
-
-const TestFilez = createStackNavigator({
-  Tests: TestFile,
-});
-TestFilez.navigationOptions = {
-  tabBarLabel: 'TEST ZONE',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-          Platform.OS === 'ios'
-            ? `ios-information-circle${focused ? '' : '-outline'}`
-            : 'md-information-circle'
-        }
-    />
-  ),
-};
 
 const MapStack = createStackNavigator({
   Map: MapScreen,
@@ -95,5 +77,4 @@ export default createBottomTabNavigator({
   LinksStack,
   SettingsStack,
   MapStack,
-  TestFilez,
 });
