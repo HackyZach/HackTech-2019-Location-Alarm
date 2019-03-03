@@ -16,14 +16,16 @@ export default class HomeScreen extends React.Component {
       return (
         <View style={styles.container}>
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <Image
+              source={require('../assets/images/icon.png')}
+              style={styles.image}
+            />
             <View style={styles.getStartedContainer}>
-              <Image
-                source={require('../assets/images/icon.png')}
-                style={{ resizeMode: 'cover' }}
-              />
+
 
               <Text style={styles.getStartedTitle}>
-            Welcome to our HackTech Location Based Alarm Application
+                {'\n'}
+                Welcome to our HackTech Location Based Alarm Application
               </Text>
 
               <Text style={styles.getStartedText}>
