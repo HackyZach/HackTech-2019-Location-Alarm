@@ -19,6 +19,7 @@ export default class App extends React.Component {
   state = {
     searchNew: '',
     markers: [],
+    count: 1,
   };
 
   constructor(props) {
@@ -30,18 +31,6 @@ export default class App extends React.Component {
     this.setState({ searchNew: search });
   };
 
-  handlePress(e) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          key: e.nativeEvent.coordinate.latitude,
-          coordinate: e.nativeEvent.coordinate,
-        },
-      ],
-    });
-  }
-
   handleLocation = (e) => {
     // User coordinates
     // console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude);
@@ -51,22 +40,39 @@ export default class App extends React.Component {
     });
   };
 
+  handlePress(e) {
+    this.setState({ count: this.state.count + 1 });
+    this.setState({
+      markers: [
+        ...this.state.markers,
+        {
+          key: this.state.count,
+          coordinate: e.nativeEvent.coordinate,
+        },
+      ],
+    });
+  }
+
+  markerName(e) {
+    return `Map Marker #${e.key}`;
+  }
+
   handleDialogueBox(e) {
     // Not working
-    console.log('Boop!');
+    console.log(e);
   }
 
   render() {
     const { searchNew: search } = this.state;
-    //User Coords
+    // User Coords
     const { lat: lati } = this.state;
     const { long: longi } = this.state;
     // console.log(lati, longi)
+    const { i: v } = this.state;
 
     console.log(search);
 
     return (
-
       <MapView
         style={{ flex: 1 }}
         provider="google"
@@ -75,7 +81,7 @@ export default class App extends React.Component {
         showsUserLocation
         mapType="standard"
         onLongPress={this.handlePress}
-        onUserLocationChange={this.handleLocation}
+        // onUserLocationChange={this.handleLocation}
         // onMarkerPress={}
         initialRegion={{
           latitude: 34.1401239,
@@ -90,16 +96,15 @@ export default class App extends React.Component {
           </View>
         </MapView.Callout>
 
-
         {this.state.markers.map(marker => (
           // console.log(marker),
           <View key={marker.coordinate.latitude}>
             <MapView.Marker
               {...marker}
               onDrag={this.updateCircle}
-              title="Marker #XX"
+              title={this.markerName(marker)}
               description="Tap to Change Info"
-              onCalloutPress={this.handleDialogueBox}
+              onCalloutPress={this.handleDialogueBox(marker)}
             >
             </MapView.Marker>
             <MapView.Circle
@@ -107,7 +112,7 @@ export default class App extends React.Component {
                 latitude: marker.coordinate.latitude,
                 longitude: marker.coordinate.longitude,
               }}
-              radius={500}
+              radius={250}
             >
             </MapView.Circle>
           </View>
