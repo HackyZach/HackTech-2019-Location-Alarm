@@ -1,17 +1,24 @@
-import React from "react";
-import { MapView } from "expo";
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import haversine from 'haversine';
+const haversine = require('haversine')
 import Dialog from 'react-native-dialog';
+import React from 'react';
+import { MapView } from 'expo';
+import { StyleSheet, Text, Alert, View} from 'react-native';
+//import haversine from 'haversine';
 
+let start = {
+  latitude:   34.1377,
+  longitude: -118.1253
+};
+
+let end = {
+  latitude: 0,
+  longitude: 0
+};
 
 export default class App extends React.Component {
   static navigationOptions = {
-    title: 'Navigation',
+    title: 'Are We There Yet?',
+    title: 'Navigation'
   };
 
   tempValues = {
@@ -19,7 +26,7 @@ export default class App extends React.Component {
     long: 0,
     p_lat: -1,
   };
-
+  
   state = {
     markers: [],
     count: 1,
@@ -28,49 +35,55 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      markers: [],
+      start_latitude: 34.1377,
+      start_longitude: -118.1253,
+      end_latitude: 0,
+      end_longitude: 0
+    };
     this.handlePress = this.handlePress.bind(this);
   }
 
-  closeDiag= () => {
-    this.setState({ close: false });
-  };
+// closeDiag= () => {
+//   this.setState({ close: false });
+//   };
+// } 
 
-  markerName(e) {
-    return `Map Marker #${e.key}`;
-  }
+markerName(e) {
+  return `Map Marker #${e.key}`;
+}
 
-  isClose(e, mark) {
-    if (e <= 250) {
-      console.log(`YAY! CLOSE TO MAP MARKER ${mark.key}`);
-      this.setState({ close: true });
-      return true;
-    }
-    return false;
+isClose(e, mark) {
+  if (e <= 250) {
+    console.log(`YAY! CLOSE TO MAP MARKER ${mark.key}`);
+    this.setState({ close: true });
+    return true;
   }
+  return false;
+}
 
-  handlePress(e) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          key: this.state.count,
-          coordinate: e.nativeEvent.coordinate,
-        },
-      ],
-    });
-  }
+handlePress(e) {
+  this.setState({
+    markers: [
+      ...this.state.markers,
+      {
+        key: e.nativeEvent.coordinate.latitude,
+        coordinate: e.nativeEvent.coordinate,
+      },
+    ],
+  }); 
+}
 
 handleLocation = (e) => {
   const userLat = e.nativeEvent.coordinate.latitude;
   const tempLat = this.tempValues.lat;
-  // console.log(userLat);
-  // console.log(tempLat);
   if (tempLat === userLat) {
     return;
   }
   console.log('[Debug] Location Change Detected');
   // User coordinates
-  // console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
   this.tempValues.lat = userLat;
   this.tempValues.long = e.nativeEvent.coordinate.longitude;
   this.tempValues.p_lat = tempLat;
@@ -91,70 +104,84 @@ calculateDist(e) {
     latitude: e.coordinate.latitude,
     longitude: e.coordinate.longitude,
   };
-  // console.log(haversine(start, end));
+
   const value = haversine(start, end, { unit: 'meter' });
   console.log(`Lat: ${tempLat} Long: ${tempLong} Dist: ${value}`);
   return value;
 }
 
 render() {
-  // Possible broken map markers - considering it a feature for now, dialogue box shows only once
+  // Possible broken map markers - considering it a feature for now,
   return (
-    <MapView
-      style={{ flex: 1 }}
-      provider="google"
-      showsTraffic
-      showsMyLocationButton
-      showsUserLocation
-      mapType="standard"
-      onLongPress={this.handlePress}
-      onUserLocationChange={this.handleLocation}
-        // onMarkerPress={}
-      initialRegion={{
-        latitude: 34.1401239,
-        longitude: -118.1250156,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
-    >
-      <MapView.Callout>
-        <View>
-          <Text style={styles.calloutView}> Yay! Im a callout! </Text>
+    <View style={{flex: 1}}>
+      <MapView
+        style={{ flex: 1 }}
+        provider="google"
+        showsTraffic
+        showsMyLocationButton
+        showsUserLocation
+        mapType="standard"
+        onLongPress={this.handlePress}
 
-          <Dialog.Container visible={this.state.close}>
-            <Dialog.Title>Hey! Listen!</Dialog.Title>
-            <Dialog.Description>
-              You are really close to your destination!
-            </Dialog.Description>
-            <Dialog.Button label="Nice!" onPress={this.closeDiag} />
-          </Dialog.Container>
-        </View>
-      </MapView.Callout>
+        onUserLocationChange={(event) => { 
+          let s_coordinate = event.nativeEvent.coordinate;
+          let alarm_went_off = false;
+         
+          let entry = true;
+          if (alarm_went_off)
+            entry = false;
+          
+          if (this.state.markers.length > 0 && !alarm_went_off && entry) {
+            let i = 0;
+            while(i < this.state.markers.length && !alarm_went_off) {
+              let e_coordinate = this.state.markers[i].coordinate;
+              let start = {
+                latitude: s_coordinate.latitude,
+                longitude: s_coordinate.longitude
+              }
+              let end = {
+                latitude: e_coordinate.latitude,
+                longitude: e_coordinate.longitude
+              }
+              let meter = haversine(start, end, {unit:'meter'}) - 250;
+              console.log(meter);
 
-      {this.state.markers.map(marker => (
-        // console.log(marker),
-        <View key={marker.coordinate.latitude}>
+              if(meter <= 250) {
+                alarm_went_off = true;
+                Alert.alert("You have arrived at your destination!")
+              }
+              ++i;
+            }
+          }
+          if(alarm_went_off)
+            entry = false;
+        }}
+        mapType="standard"
+        onLongPress={this.handlePress}
+        
+        initialRegion={{
+          latitude: this.state.start_latitude,
+          longitude: this.state.start_longitude, 
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      >
+
+ 
+
+        {this.state.markers.map(marker => (
           <MapView.Marker
             {...marker}
-            onDrag={this.updateCircle}
-            title={this.markerName(marker)}
+            title="Marker #XX"
             description="Tap to Change Info"
+            onCalloutPress={this.handleDialogueBox}
           >
-            {this.isClose(this.calculateDist(marker), marker)}
           </MapView.Marker>
-          <MapView.Circle
-            center={{
-              latitude: marker.coordinate.latitude,
-              longitude: marker.coordinate.longitude,
-            }}
-            radius={250}
-          >
-          </MapView.Circle>
-        </View>
-      ))}
-    </MapView>
-  );
-}
+        ))}
+      </MapView>
+    </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
