@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapView } from 'expo';
+import React from "react";
+import { MapView } from "expo";
 import {
   StyleSheet,
   Text,
@@ -159,12 +159,12 @@ render() {
 
 const styles = StyleSheet.create({
   calloutView: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 10,
-    width: '40%',
-    marginLeft: '30%',
-    marginRight: '30%',
-    marginTop: 20,
-  },
+    width: "40%",
+    marginLeft: "30%",
+    marginRight: "30%",
+    marginTop: 20
+  }
 });
