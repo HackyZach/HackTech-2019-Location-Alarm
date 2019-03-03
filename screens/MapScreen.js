@@ -10,7 +10,6 @@ import {
   TextInput
 } from "react-native";
 import { SearchBar } from "react-native-elements";
-import TimerMixin from "react-timer-mixin";
 import haversine from "haversine";
 import Dialog from "react-native-dialog";
 
@@ -27,8 +26,7 @@ export default class App extends React.Component {
     long: 0,
     p_lat: -1,
     close: false,
-    map: -1,
-    dist: -1
+    map: -1
   };
 
   constructor(props) {

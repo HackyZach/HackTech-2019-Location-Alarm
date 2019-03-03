@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-import {
-  Text, TouchableOpacity, View, StyleSheet,
-} from 'react-native';
-import Dialog from 'react-native-dialog';
+import React, { Component } from "react";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import Dialog from "react-native-dialog";
 
 export default class DialogTester extends Component {
   state = {
     visibleBox: true,
     dialogOne: true,
-    dialogTwo: false,
+    dialogTwo: false
   };
 
   showDialog = () => {
@@ -17,7 +15,7 @@ export default class DialogTester extends Component {
 
   showDialogTwo = () => {
     this.setState({ dialogTwo: true, dialogOne: false, visibleBox: true });
-  }
+  };
 
   //TODO
   handleCancel = () => {
@@ -34,9 +32,9 @@ export default class DialogTester extends Component {
     const { dialogTwo: dialogBoxTwo } = this.state;
     const { visibleBox: visible } = this.state;
     console.log(dialogBox);
-    console.log(this.state.dialogOne)
+    console.log(this.state.dialogOne);
 
-    console.log(dialogBox, visible)
+    console.log(dialogBox, visible);
     return (
       <View>
         <TouchableOpacity onPress={this.showDialog}>
@@ -48,9 +46,7 @@ export default class DialogTester extends Component {
 
         <Dialog.Container visible={dialogBox && visible}>
           <Dialog.Title>[Dev] Messagebox Title</Dialog.Title>
-          <Dialog.Description>
-            Messagebox Description
-          </Dialog.Description>
+          <Dialog.Description>Messagebox Description</Dialog.Description>
           <View>
             <Dialog.Input label="Input Label" />
             <Text> Inline text in messagebox </Text>
@@ -79,5 +75,4 @@ export default class DialogTester extends Component {
 }
 
 // TODO Fill out
-const styles = StyleSheet.create({
-});
+const styles = StyleSheet.create({});

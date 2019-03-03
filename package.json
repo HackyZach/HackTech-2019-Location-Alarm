@@ -22,8 +22,7 @@
     "react-native-maps": "^0.23.0",
     "react-native-searchbar": "^1.15.0",
     "react-native-vector-icons": "^6.3.0",
-    "react-navigation": "^3.0.9",
-    "react-timer-mixin": "^0.13.4"
+    "react-navigation": "^3.0.9"
   },
   "devDependencies": {
     "acorn": "^6.1.1",

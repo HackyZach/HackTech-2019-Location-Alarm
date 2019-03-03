@@ -14,6 +14,7 @@ export default class HomeScreen extends React.Component {
     title: "Default Dev Load Screen"
   };
 
+
   _handleLearnMorePress = () => {
     WebBrowser.openBrowserAsync(
       "https://docs.expo.io/versions/latest/guides/development-mode"
@@ -67,6 +68,10 @@ export default class HomeScreen extends React.Component {
           </View>
 
           <View style={styles.getStartedContainer}>
+          <Image
+                source={require('../assets/images/icon.png')}
+                style={{"resizeMode": "cover",}}
+              />
             {this._maybeRenderDevelopmentModeWarning()}
 
             <Text style={styles.getStartedTitle}>
