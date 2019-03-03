@@ -3,8 +3,13 @@ import { StyleSheet, Platform } from 'react-native';
 export default StyleSheet.create({
   image: {
     height: '80%',
+    flex: 0,
+    marginTop: 0,
+    paddingTop: 0,
   },
   container: {
+    marginTop: 0,
+    paddingTop: 0,
     flex: 1,
     backgroundColor: '#fff',
   },
