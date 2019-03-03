@@ -118,7 +118,7 @@ export default class App extends React.Component {
     const { long: longi } = this.state;
     // console.log(lati, longi)
     const { i: v } = this.state;
-
+    const { map: marker } = this.state;
     console.log(search);
 
     return (
@@ -144,11 +144,9 @@ export default class App extends React.Component {
             <Text style={styles.calloutView}> Yay! Im a callout! </Text>
 
             <Dialog.Container visible={this.state.close}>
-              <Dialog.Title>Hey! Get Ready!</Dialog.Title>
+              <Dialog.Title>Hey! Listen!</Dialog.Title>
               <Dialog.Description>
-              You are really close to Map Marker #
-                {this.state.map}
-!
+              You are really close to your destination!
               </Dialog.Description>
               <Dialog.Button label="Nice!" onPress={this.close} />
             </Dialog.Container>
