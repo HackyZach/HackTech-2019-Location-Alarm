@@ -126,12 +126,8 @@ render() {
         onUserLocationChange={(event) => { 
           let s_coordinate = event.nativeEvent.coordinate;
           let alarm_went_off = false;
-         
-          let entry = true;
-          if (alarm_went_off)
-            entry = false;
           
-          if (this.state.markers.length > 0 && !alarm_went_off && entry) {
+          if (this.state.markers.length > 0 && !alarm_went_off ) {
             let i = 0;
             while(i < this.state.markers.length && !alarm_went_off) {
               let e_coordinate = this.state.markers[i].coordinate;
@@ -149,12 +145,14 @@ render() {
               if(meter <= 250) {
                 alarm_went_off = true;
                 Alert.alert("You have arrived at your destination!")
+                
               }
               ++i;
             }
           }
-          if(alarm_went_off)
+          if(alarm_went_off) {
             entry = false;
+          }
         }}
         mapType="standard"
         onLongPress={this.handlePress}
@@ -167,12 +165,44 @@ render() {
         }}
       >
 
- 
+{/* <MapView.Callout>
+        <View>
+          <Text style={styles.calloutView}> Yay! Im a callout! </Text>
 
-        {this.state.markers.map(marker => (
+          <Dialog.Container visible={this.state.close}>
+            <Dialog.Title>Hey! Listen!</Dialog.Title>
+            <Dialog.Description>
+              You are really close to your destination!
+            </Dialog.Description>
+            <Dialog.Button label="Nice!" onPress={this.closeDiag} />
+          </Dialog.Container>
+        </View>
+      </MapView.Callout>
+
+      {this.state.markers.map(marker => (
+        <View key={marker.coordinate.latitude}>
+          <MapView.Marker
+            {...marker}
+            onDrag={this.updateCircle}
+            title={this.markerName(marker)}
+            description="Tap to Change Info"
+          >
+            {this.isClose(this.calculateDist(marker), marker)}
+          </MapView.Marker>
+          <MapView.Circle
+            center={{
+              latitude: marker.coordinate.latitude,
+              longitude: marker.coordinate.longitude,
+            }}
+            radius={250}
+          >
+          </MapView.Circle> }*/
+        //{
+          this.state.markers.map(marker => (
           <MapView.Marker
             {...marker}
             title="Marker #XX"
+            active="true"
             description="Tap to Change Info"
             onCalloutPress={this.handleDialogueBox}
           >
