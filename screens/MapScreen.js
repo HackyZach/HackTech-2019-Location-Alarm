@@ -72,7 +72,7 @@ export default class App extends React.Component {
           >
           end.marker_longitude = marker.coordinate.longitude;
           end.marker_latitude = marker.coordinate.latitude;
-          haversine(start, end, unit: 'meter');
+          Alert.alert("Distance: " + haversine(start, end, unit: 'meter') - 250; // Radius is fixed at 250 meters.
           </MapView.Marker>
         ))}
       </MapView>
