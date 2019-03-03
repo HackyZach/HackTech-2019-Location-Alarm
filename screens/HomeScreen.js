@@ -74,13 +74,14 @@ export default class HomeScreen extends React.Component {
             </Text>
 
             <Text style={styles.getStartedText}>
-              A location-based alarm that triggers when a user enters a
-              specified location. This idea was derived from taking the train
-              and bus to CSUF where passengers are often seen sleeping or panic
-              about missing their stop. Bicyclists can use it to pedal hard
-              knowing their alarm will go off at the place theyre meeting their
-              bicyclists friends. It can also serve as a reminder to drivers
-              want to pick up something from a store.
+              This project is a location-based alarm that triggers when a user
+              enters a specified location. This idea was derived from taking the
+              train and bus to CSUF where passengers are often seen sleeping and
+              panic about missing their stop. Bicyclists can use it to pedal
+              hard knowing their alarm will go off at the place theyre meeting
+              their bicyclists friends. It can also serve as a reminder to
+              drivers who many want to pick up something from a store and not
+              forget when driving by.
             </Text>
           </View>
         </ScrollView>
