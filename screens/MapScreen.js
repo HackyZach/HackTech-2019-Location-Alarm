@@ -42,18 +42,27 @@ export default class App extends React.Component {
     });
   }
 
-  handleLocation(e) {
-      //User coordinates
-    //console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude);
-  }
+  handleLocation = (e) => {
+    // User coordinates
+    // console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude);
+    this.setState({
+      lat: e.nativeEvent.coordinate.latitude,
+      long: e.nativeEvent.coordinate.longitude,
+    });
+  };
 
   handleDialogueBox(e) {
-      //Not working
-      console.log(e);
+    // Not working
+    console.log('Boop!');
   }
 
   render() {
-    const { search } = this.state.searchNew;
+    const { searchNew: search } = this.state;
+    //User Coords
+    const { lat: lati } = this.state;
+    const { long: longi } = this.state;
+    // console.log(lati, longi)
+
     console.log(search);
 
     return (
@@ -81,14 +90,27 @@ export default class App extends React.Component {
           </View>
         </MapView.Callout>
 
+
         {this.state.markers.map(marker => (
-          <MapView.Marker
-            {...marker}
-            title="Marker #XX"
-            description="Tap to Change Info"
-            onCalloutPress={this.handleDialogueBox}
-          >
-          </MapView.Marker>
+          // console.log(marker),
+          <View key={marker.coordinate.latitude}>
+            <MapView.Marker
+              {...marker}
+              onDrag={this.updateCircle}
+              title="Marker #XX"
+              description="Tap to Change Info"
+              onCalloutPress={this.handleDialogueBox}
+            >
+            </MapView.Marker>
+            <MapView.Circle
+              center={{
+                latitude: marker.coordinate.latitude,
+                longitude: marker.coordinate.longitude,
+              }}
+              radius={500}
+            >
+            </MapView.Circle>
+          </View>
         ))}
       </MapView>
     );
