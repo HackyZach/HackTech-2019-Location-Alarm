@@ -11,7 +11,7 @@ import Dialog from 'react-native-dialog';
 
 export default class App extends React.Component {
   static navigationOptions = {
-    title: 'Dev-MapTest',
+    title: 'Navigation',
   };
 
   tempValues = {
