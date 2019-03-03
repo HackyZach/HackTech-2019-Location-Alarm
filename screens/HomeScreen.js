@@ -4,6 +4,7 @@ import {
   ScrollView,
   Text,
   View,
+  ImageBackground,
 } from 'react-native';
 import styles from './style/Home';
 
@@ -16,6 +17,7 @@ export default class HomeScreen extends React.Component {
       return (
         <View style={styles.container}>
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+
             <Image
               source={require('../assets/images/icon.png')}
               style={styles.image}
