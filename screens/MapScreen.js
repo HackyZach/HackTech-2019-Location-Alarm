@@ -5,14 +5,19 @@ import { MapView } from 'expo';
 import { Alert, Button, View } from 'react-native';
 
 let start = {
-  latitude: 0,
-  longitude: 0
+  latitude:  40.689247,
+  longitude: -74.044502
 };
 
 let end = {
   latitude: 0,
   longitude: 0
 };
+
+  function set_coordinates(event) {
+    start.latitude = event.latitude;
+    start.longitude = event.longitude;
+  }
 
 export default class App extends React.Component {
   static navigationOptions = {
@@ -49,15 +54,16 @@ export default class App extends React.Component {
         showsTraffic
         showsMyLocationButton
         showsUserLocation = {true}
+        showsCompass = {true}
         onUserLocationChange= {(event)=>{
-          start.user_latitude = event.nativeEvent.coordinate.latitude;
-          start.user_longitude = event.nativeEvent.coordinate.longitude;
+          set_coordinates(event);
         }}
         mapType="standard"
         onLongPress={this.handlePress}
+
         initialRegion={{
-          latitude: 40.76727216,
-          longitude: -73.99392888,
+          latitude: start.latitude, //34.1377
+          longitude: start.longitude, //118.1253
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
