@@ -12,6 +12,7 @@ import {
 import { SearchBar } from 'react-native-elements';
 import TimerMixin from 'react-timer-mixin';
 import haversine from 'haversine';
+import Dialog from 'react-native-dialog';
 
 export default class App extends React.Component {
   static navigationOptions = {
@@ -24,8 +25,10 @@ export default class App extends React.Component {
     count: 1,
     lat: 0,
     long: 0,
-    p_lat: 0,
-    p_long: 0.
+    p_lat: -1,
+    close: false,
+    map: -1,
+    dist: -1,
   };
 
   constructor(props) {
@@ -38,16 +41,15 @@ export default class App extends React.Component {
   };
 
   handleLocation = (e) => {
-      if (this.state.lat === e.nativeEvent.coordinate.latitude) {
-          return;
-      }
+    if (this.state.lat === e.nativeEvent.coordinate.latitude) {
+      return;
+    }
     // User coordinates
-    // console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude);
+    // console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude)
     this.setState({
       lat: e.nativeEvent.coordinate.latitude,
       long: e.nativeEvent.coordinate.longitude,
       p_lat: this.state.lat,
-      p_long: this.state.long,
     });
   };
 
@@ -64,30 +66,49 @@ export default class App extends React.Component {
     });
   }
 
+  isClose(e, mark) {
+    if (e <= 250) {
+      console.log(`YAY! CLOSE TO MAP MARKER ${mark.key}`);
+      this.setState({ close: true });
+      this.setState({ map: mark.key });
+      return true;
+    }
+    return false;
+  }
+
   markerName(e) {
     return `Map Marker #${e.key}`;
   }
 
   handleDialogueBox(e) {
     // Not working
-    console.log(e);
+    // console.log(e);
   }
 
   calculateDist(e) {
     if (this.state.lat === this.state.p_lat) {
-        return;
+      return;
     }
     const start = {
       latitude: this.state.lat,
       longitude: this.state.long,
     };
-
+    this.setState({
+      p_lat: this.state.lat,
+    });
     const end = {
       latitude: e.coordinate.latitude,
       longitude: e.coordinate.longitude,
     };
     // console.log(haversine(start, end));
-    console.log(haversine(start, end, { unit: 'meter' }));
+    const value = haversine(start, end, { unit: 'meter' });
+    console.log(`Lat: ${this.state.lat} Long: ${this.state.long} Dist: ${value}`);
+    this.setState({ dist: value });
+    return value;
+  }
+
+  close= () => {
+    this.setState({ close: false });
   }
 
   render() {
@@ -121,6 +142,16 @@ export default class App extends React.Component {
         <MapView.Callout>
           <View>
             <Text style={styles.calloutView}> Yay! Im a callout! </Text>
+
+            <Dialog.Container visible={this.state.close}>
+              <Dialog.Title>Hey! Get Ready!</Dialog.Title>
+              <Dialog.Description>
+              You are really close to Map Marker #
+                {this.state.map}
+!
+              </Dialog.Description>
+              <Dialog.Button label="Nice!" onPress={this.close} />
+            </Dialog.Container>
           </View>
         </MapView.Callout>
 
@@ -133,6 +164,7 @@ export default class App extends React.Component {
               title={this.markerName(marker)}
               description="Tap to Change Info"
               distance={this.calculateDist(marker)}
+              close={this.isClose(this.calculateDist(marker), marker)}
               onCalloutPress={this.handleDialogueBox(marker)}
             >
             </MapView.Marker>
