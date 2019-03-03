@@ -14,14 +14,9 @@ let end = {
   longitude: 0
 };
 
-  function set_coordinates(event) {
-    start.latitude = event.latitude;
-    start.longitude = event.longitude;
-  }
-
 export default class App extends React.Component {
   static navigationOptions = {
-    title: 'Map Screen Test',
+    title: 'Are we there yet?',
   };
 
   constructor(props) {
@@ -29,21 +24,31 @@ export default class App extends React.Component {
 
     this.state = {
       markers: [],
+      start_latitude: 0,
+      start_longitude: 0,
+      end_latitude: 0,
+      end_longitude: 0
     };
     this.handlePress = this.handlePress.bind(this);
   }
 
-  handlePress(e) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          key: e.nativeEvent.coordinate.latitude,
-          coordinate: e.nativeEvent.coordinate,
-        },
-      ],
-    });
-  }
+handlePress(e) {
+  this.setState({
+    markers: [
+      ...this.state.markers,
+      {
+        key: e.nativeEvent.coordinate.latitude,
+        coordinate: e.nativeEvent.coordinate,
+      },
+    ],
+  });
+  
+}
+
+set_start_coordinates(event) {
+  this.state.start_latitude = event.latitude;
+  this.state.start_longitude = event.longitude;
+}
 
   render() {
     return (
@@ -56,14 +61,20 @@ export default class App extends React.Component {
         showsUserLocation = {true}
         showsCompass = {true}
         onUserLocationChange= {(event)=>{
-          set_coordinates(event);
+          this.set_start_coordinates(event);
+          // console.log(this.state.start_latitude);
+          // console.log(this.state.start_longitude);
+          // this.state.start_latitude = event.latitude;
+          // this.state.start_longitude = event.longitude;
+          // console.log(event.latitude);
+          // console.log(event.longitude);
         }}
         mapType="standard"
         onLongPress={this.handlePress}
-
+        
         initialRegion={{
-          latitude: start.latitude, //34.1377
-          longitude: start.longitude, //118.1253
+          latitude: this.state.start_latitude, //34.1377
+          longitude: this.state.start_longitude, //118.1253
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
@@ -76,9 +87,9 @@ export default class App extends React.Component {
             description="Tap to Change Info"
             onCalloutPress={this.handleDialogueBox}
           >
-          end.marker_longitude = marker.coordinate.longitude;
+          {/* end.marker_longitude = marker.coordinate.longitude;
           end.marker_latitude = marker.coordinate.latitude;
-          Alert.alert("Distance: " + haversine(start, end, unit: 'meter') - 250; // Radius is fixed at 250 meters.
+          Alert.alert("Distance: " + haversine(start, end, unit: 'meter') - 250; // Radius is fixed at 250 meters. */}
           </MapView.Marker>
         ))}
       </MapView>
