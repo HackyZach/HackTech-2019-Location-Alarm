@@ -10,6 +10,8 @@ import {
   TextInput,
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import TimerMixin from 'react-timer-mixin';
+import haversine from 'haversine';
 
 export default class App extends React.Component {
   static navigationOptions = {
@@ -20,6 +22,10 @@ export default class App extends React.Component {
     searchNew: '',
     markers: [],
     count: 1,
+    lat: 0,
+    long: 0,
+    p_lat: 0,
+    p_long: 0.
   };
 
   constructor(props) {
@@ -32,11 +38,16 @@ export default class App extends React.Component {
   };
 
   handleLocation = (e) => {
+      if (this.state.lat === e.nativeEvent.coordinate.latitude) {
+          return;
+      }
     // User coordinates
     // console.log(e.nativeEvent.coordinate.latitude, e.nativeEvent.coordinate.longitude);
     this.setState({
       lat: e.nativeEvent.coordinate.latitude,
       long: e.nativeEvent.coordinate.longitude,
+      p_lat: this.state.lat,
+      p_long: this.state.long,
     });
   };
 
@@ -62,6 +73,23 @@ export default class App extends React.Component {
     console.log(e);
   }
 
+  calculateDist(e) {
+    if (this.state.lat === this.state.p_lat) {
+        return;
+    }
+    const start = {
+      latitude: this.state.lat,
+      longitude: this.state.long,
+    };
+
+    const end = {
+      latitude: e.coordinate.latitude,
+      longitude: e.coordinate.longitude,
+    };
+    // console.log(haversine(start, end));
+    console.log(haversine(start, end, { unit: 'meter' }));
+  }
+
   render() {
     const { searchNew: search } = this.state;
     // User Coords
@@ -81,7 +109,7 @@ export default class App extends React.Component {
         showsUserLocation
         mapType="standard"
         onLongPress={this.handlePress}
-        // onUserLocationChange={this.handleLocation}
+        onUserLocationChange={this.handleLocation}
         // onMarkerPress={}
         initialRegion={{
           latitude: 34.1401239,
@@ -104,6 +132,7 @@ export default class App extends React.Component {
               onDrag={this.updateCircle}
               title={this.markerName(marker)}
               description="Tap to Change Info"
+              distance={this.calculateDist(marker)}
               onCalloutPress={this.handleDialogueBox(marker)}
             >
             </MapView.Marker>
