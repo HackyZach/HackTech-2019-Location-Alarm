@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapView } from 'expo';
+import React from "react";
+import { MapView } from "expo";
 import {
   Image,
   Platform,
@@ -7,20 +7,20 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-} from 'react-native';
-import { SearchBar } from 'react-native-elements';
-import TimerMixin from 'react-timer-mixin';
-import haversine from 'haversine';
-import Dialog from 'react-native-dialog';
+  TextInput
+} from "react-native";
+import { SearchBar } from "react-native-elements";
+import TimerMixin from "react-timer-mixin";
+import haversine from "haversine";
+import Dialog from "react-native-dialog";
 
 export default class App extends React.Component {
   static navigationOptions = {
-    title: 'Dev-MapTest',
+    title: "Dev-MapTest"
   };
 
   state = {
-    searchNew: '',
+    searchNew: "",
     markers: [],
     count: 1,
     lat: 0,
@@ -28,7 +28,7 @@ export default class App extends React.Component {
     p_lat: -1,
     close: false,
     map: -1,
-    dist: -1,
+    dist: -1
   };
 
   constructor(props) {
@@ -36,11 +36,11 @@ export default class App extends React.Component {
     this.handlePress = this.handlePress.bind(this);
   }
 
-  updateSearch = (search) => {
+  updateSearch = search => {
     this.setState({ searchNew: search });
   };
 
-  handleLocation = (e) => {
+  handleLocation = e => {
     if (this.state.lat === e.nativeEvent.coordinate.latitude) {
       return;
     }
@@ -49,7 +49,7 @@ export default class App extends React.Component {
     this.setState({
       lat: e.nativeEvent.coordinate.latitude,
       long: e.nativeEvent.coordinate.longitude,
-      p_lat: this.state.lat,
+      p_lat: this.state.lat
     });
   };
 
@@ -60,9 +60,9 @@ export default class App extends React.Component {
         ...this.state.markers,
         {
           key: this.state.count,
-          coordinate: e.nativeEvent.coordinate,
-        },
-      ],
+          coordinate: e.nativeEvent.coordinate
+        }
+      ]
     });
   }
 
@@ -91,25 +91,27 @@ export default class App extends React.Component {
     }
     const start = {
       latitude: this.state.lat,
-      longitude: this.state.long,
+      longitude: this.state.long
     };
     this.setState({
-      p_lat: this.state.lat,
+      p_lat: this.state.lat
     });
     const end = {
       latitude: e.coordinate.latitude,
-      longitude: e.coordinate.longitude,
+      longitude: e.coordinate.longitude
     };
     // console.log(haversine(start, end));
-    const value = haversine(start, end, { unit: 'meter' });
-    console.log(`Lat: ${this.state.lat} Long: ${this.state.long} Dist: ${value}`);
+    const value = haversine(start, end, { unit: "meter" });
+    console.log(
+      `Lat: ${this.state.lat} Long: ${this.state.long} Dist: ${value}`
+    );
     this.setState({ dist: value });
     return value;
   }
 
-  close= () => {
+  close = () => {
     this.setState({ close: false });
-  }
+  };
 
   render() {
     const { searchNew: search } = this.state;
@@ -136,7 +138,7 @@ export default class App extends React.Component {
           latitude: 34.1401239,
           longitude: -118.1250156,
           latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          longitudeDelta: 0.0421
         }}
       >
         <MapView.Callout>
@@ -146,7 +148,7 @@ export default class App extends React.Component {
             <Dialog.Container visible={this.state.close}>
               <Dialog.Title>Hey! Listen!</Dialog.Title>
               <Dialog.Description>
-              You are really close to your destination!
+                You are really close to your destination!
               </Dialog.Description>
               <Dialog.Button label="Nice!" onPress={this.close} />
             </Dialog.Container>
@@ -164,16 +166,14 @@ export default class App extends React.Component {
               distance={this.calculateDist(marker)}
               close={this.isClose(this.calculateDist(marker), marker)}
               onCalloutPress={this.handleDialogueBox(marker)}
-            >
-            </MapView.Marker>
+            />
             <MapView.Circle
               center={{
                 latitude: marker.coordinate.latitude,
-                longitude: marker.coordinate.longitude,
+                longitude: marker.coordinate.longitude
               }}
               radius={250}
-            >
-            </MapView.Circle>
+            />
           </View>
         ))}
       </MapView>
@@ -183,12 +183,12 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   calloutView: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 10,
-    width: '40%',
-    marginLeft: '30%',
-    marginRight: '30%',
-    marginTop: 20,
-  },
+    width: "40%",
+    marginLeft: "30%",
+    marginRight: "30%",
+    marginTop: 20
+  }
 });
