@@ -2,10 +2,7 @@ import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   image: {
-    height: '80%',
-    flex: 0,
-    marginTop: 0,
-    paddingTop: 0,
+    height: '100%',
   },
   container: {
     marginTop: 0,
