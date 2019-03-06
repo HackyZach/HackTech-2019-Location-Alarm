@@ -1,8 +1,6 @@
 import React from 'react';
 import { MapView } from 'expo';
 import {
-  StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import haversine from 'haversine';
@@ -40,6 +38,9 @@ export default class App extends React.Component {
   }
 
   isClose(e, mark) {
+    if (e === false) {
+      return false;
+    }
     if (e <= 250) {
       console.log(`YAY! CLOSE TO MAP MARKER ${mark.key}`);
       this.setState({ close: true });
@@ -50,11 +51,13 @@ export default class App extends React.Component {
   }
 
   handlePress(e) {
+    const { markers: mark } = this.state;
+    const { count: num } = this.state;
     this.setState({
       markers: [
-        ...this.state.markers,
+        mark,
         {
-          key: this.state.count,
+          key: num,
           coordinate: e.nativeEvent.coordinate,
           active: true,
         },
@@ -83,7 +86,7 @@ calculateDist(e) {
   const tempLat = this.tempValues.lat;
   const tempLong = this.tempValues.long;
   if (tempLat === this.tempValues.p_lat) {
-    return;
+    return false;
   }
   const start = {
     latitude: tempLat,
@@ -100,8 +103,11 @@ calculateDist(e) {
   return value;
 }
 
+
 render() {
   // Possible broken map markers - considering it a feature for now, dialogue box shows only once
+  const { close: show } = this.state;
+  const { markers: mark } = this.state;
   return (
     <MapView
       style={{ flex: 1 }}
@@ -122,7 +128,7 @@ render() {
     >
       <MapView.Callout>
         <View>
-          <Dialog.Container visible={this.state.close}>
+          <Dialog.Container visible={show}>
             <Dialog.Title>Hey! Listen!</Dialog.Title>
             <Dialog.Description>
               You are really close to your destination!
@@ -132,7 +138,7 @@ render() {
         </View>
       </MapView.Callout>
 
-      {this.state.markers.map(marker => (
+      {mark.map(marker => (
         // console.log(marker),
         <View key={marker.coordinate.latitude}>
           <MapView.Marker
@@ -157,15 +163,3 @@ render() {
   );
 }
 }
-
-const styles = StyleSheet.create({
-  calloutView: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 10,
-    width: '40%',
-    marginLeft: '30%',
-    marginRight: '30%',
-    marginTop: 20,
-  },
-});

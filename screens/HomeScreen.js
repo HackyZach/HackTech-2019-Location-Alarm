@@ -4,7 +4,6 @@ import {
   ScrollView,
   Text,
   View,
-  ImageBackground,
 } from 'react-native';
 import styles from './style/Home';
 
